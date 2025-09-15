@@ -2,14 +2,15 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
+#include <stdlib.h>
 #include <chrono>
 #include <thread>
 #include <ctime>
 #include <fstream>
-//to view update
+
 using namespace std;
 
-bool testing = true;
+bool testing = false;
 
 void test(string x) {
     if (testing)
@@ -29,7 +30,8 @@ void typer(string x) {
     }
 }
 void clear() {
-    system("cls");
+    //system("cls");
+    system("clear");
 }
 int genRand(int upto) {
     //returns an int n as 0 <= n < upto
@@ -99,8 +101,14 @@ private:
     string words[11];
     string word;
     string addys[34];
+    string content;
+    string commands[16];
 public:
     GUI() {
+        for(int i = 0; i < 17; i++)
+            commands[i] = " ";
+        commands[16] = ">";
+        
         attempts = 4;
         level = chooseLevel() + 2;
         test("Level Chosen");
@@ -167,12 +175,43 @@ public:
     }
 
     void print() {
-
+        clear();
+        cout << "ROBCO INDUSTRIES (TM) TERMLINK PROTOCOL\nENTER PASSWORD NOW\n\n";
+        cout << attempts << " ATTEMPT(S) LEFT: ";
+        for(int i = 0; i < attempts; i++)
+            cout << "@ ";
+        cout << "\n\n";
+        for(int i = 0; i < 17; i++){
+            //12 lenght for content each
+            cout << addys[i] << "  " << addys[i + 16] << " ";
+            if(i < 16)
+                cout << commands[i];
+            cout << endl;
+        }
+    }
+    void commandHandler(string opt){
+        
+    }
+    void getCommand(){
+        string opt;
+        cout << ">";
+        cin >> opt;
+        commandHandler(opt);
+        for(int i = 0; i < 15; i++)
+            commands[i] = commands[i + 1];
+        commands[15] = ">";
+        commands[15] += opt;
     }
 };
 
 int main() {
     srand(time(0));
     GUI game;
+
+    while(true){
+        game.print();
+        game.getCommand();
+    }
+    
 	return 0;
 }
