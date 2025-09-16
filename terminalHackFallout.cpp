@@ -2,7 +2,6 @@
 #include <sstream>
 #include <string>
 #include <cstdlib>
-#include <stdlib.h>
 #include <chrono>
 #include <thread>
 #include <ctime>
@@ -10,7 +9,7 @@
 
 using namespace std;
 
-bool testing = false;
+bool testing = true;
 
 void test(string x) {
     if (testing)
@@ -76,6 +75,7 @@ public:
         test("Pushed:");
         test(x);
     }
+/*
     string pick() {
         int spot = genRand(size) + 1;
 
@@ -91,6 +91,33 @@ public:
         test(re);
         return re;
     }
+*/
+    string pick() {
+        if (size == 0) return ""; // safety
+        int spot = genRand(size); // 0 <= spot < size
+        node* b = head;
+        node* prev = nullptr;
+    
+        for (int i = 0; i < spot; i++) {
+            prev = b;
+            b = b->next;
+        }
+    
+        string re = b->word;
+    
+        if (prev == nullptr) { // removing head
+            head = b->next;
+        } else {
+            prev->next = b->next;
+        }
+    
+        delete b;
+        size--;
+        test("Picked:");
+        test(re);
+        return re;
+    }
+
 };
 
 class GUI {
@@ -102,7 +129,7 @@ private:
     string word;
     string addys[34];
     string content;
-    string commands[16];
+    string commands[17];
 public:
     GUI() {
         for(int i = 0; i < 17; i++)
@@ -182,7 +209,7 @@ public:
             cout << "@ ";
         cout << "\n\n";
         for(int i = 0; i < 17; i++){
-            //12 lenght for content each
+            //12 length for content each
             cout << addys[i] << "  " << addys[i + 16] << " ";
             if(i < 16)
                 cout << commands[i];
