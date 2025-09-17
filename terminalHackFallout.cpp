@@ -112,13 +112,13 @@ private:
     string word;
     string addys[34];
     string content = "";
-    string commands[17];
+    string commands[16];
     char miscContent[18] = {'!', '@', '#', '$', '%', '^', '&', '*', ':', ';', ',', '.', '?', '-', '+', '=', '"', '\''};
 public:
     GUI() {
-        for(int i = 0; i < 17; i++)
+        for(int i = 0; i < 16; i++)
             commands[i] = " ";
-        commands[16] = ">";
+        commands[15] = ">";
         
         attempts = 4;
         level = chooseLevel() + 2;
@@ -147,8 +147,8 @@ public:
         
         test("Content generating");
         int indexWord = 0;
-        for(int i = 0; i < 12*17*2; i++){
-            if(i % 30 == 0 && i < 408 - level && indexWord < 11){
+        for(int i = 0; i < 12*17*2 + 11; i++){
+            if(i % 34 == 0 && i < 408 - level && indexWord < 11){
                 content += words[indexWord];
                 i += level;
                 indexWord++;
@@ -207,11 +207,11 @@ public:
         for(int i = 0; i < 17; i++){
             //12 length for content each
             cout << addys[i] << " " <<
-                content.substr(i*24, 12) << " " <<
+                content.substr(i*12, 12) << " " <<
                 addys[i + 16] << " " <<
-                content.substr(i*24+12, 12) <<
+                content.substr(i*12+204, 12) <<
                 " ";
-            if(i < 16)
+            if(i < 15)
                 cout << commands[i];
             if(i != 16)
                 cout << endl;
@@ -219,17 +219,24 @@ public:
         test(content);
     }
     void commandHandler(string opt){
-        
+        if(opt == word){
+            getCommand(true, "Exact match!");
+            getCommand(true, "Please wait");
+            getCommand(true, "while system");
+            getCommand(true, "is accessed.");
+        }
     }
     void getCommand(bool overrideOpt, string opt){
         cout << ">";
         if(!overrideOpt)
             cin >> opt;
-        commandHandler(opt);
-        for(int i = 0; i < 15; i++)
+        
+        for(int i = 0; i < 14; i++)
             commands[i] = commands[i + 1];
-        commands[15] = ">";
-        commands[15] += opt;
+        commands[14] = ">";
+        commands[14] += opt;
+        
+        commandHandler(opt);
     }
 };
 
