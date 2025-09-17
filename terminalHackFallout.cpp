@@ -111,7 +111,7 @@ private:
     string words[11];
     string word;
     string addys[34];
-    string content;
+    string content = "";
     string commands[17];
     char miscContent[18] = {'!', '@', '#', '$', '%', '^', '&', '*', ':', ';', ',', '.', '?', '-', '+', '=', '"', '\''};
 public:
@@ -144,6 +144,10 @@ public:
         test("Addy List ::");
         for (int i = 0; i < 34; i++)
             test(addys[i]);
+        
+        test("Content generating");
+        for(int i = 0; i < 12*17; i++)
+            content += miscContent[genRand(18)];
     }
     int chooseLevel() {
         typer("Select level of difficulty from '1' (least difficult) through '12' (most difficult).");
@@ -192,9 +196,12 @@ public:
         for(int i = 0; i < attempts; i++)
             cout << "@ ";
         cout << "\n\n";
+        int indexContent = 0;
         for(int i = 0; i < 17; i++){
             //12 length for content each
-            cout << addys[i] << "  " << addys[i + 16] << " ";
+            cout << addys[i] << " " <<
+                content.substr(indexContent, indexContent + 12) << " " << addys[i + 16] << " " <<
+                content.substr(indexContent + 12, indexContent + 24);
             if(i < 16)
                 cout << commands[i];
             if(i != 16)
