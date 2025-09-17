@@ -146,7 +146,7 @@ public:
             test(addys[i]);
         
         test("Content generating");
-        for(int i = 0; i < 12*17; i++)
+        for(int i = 0; i < 12*17*2; i++)
             content += miscContent[genRand(18)];
     }
     int chooseLevel() {
@@ -196,17 +196,19 @@ public:
         for(int i = 0; i < attempts; i++)
             cout << "@ ";
         cout << "\n\n";
-        int indexContent = 0;
         for(int i = 0; i < 17; i++){
             //12 length for content each
             cout << addys[i] << " " <<
-                content.substr(indexContent, indexContent + 12) << " " << addys[i + 16] << " " <<
-                content.substr(indexContent + 12, indexContent + 24);
+                content.substr(i*24, 12) << " " <<
+                addys[i + 16] << " " <<
+                content.substr(i*24+12, 12) <<
+                " ";
             if(i < 16)
                 cout << commands[i];
             if(i != 16)
                 cout << endl;
         }
+        test(content);
     }
     void commandHandler(string opt){
         
