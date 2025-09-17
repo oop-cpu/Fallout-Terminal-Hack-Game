@@ -146,8 +146,16 @@ public:
             test(addys[i]);
         
         test("Content generating");
-        for(int i = 0; i < 12*17*2; i++)
-            content += miscContent[genRand(18)];
+        int indexWord = 0;
+        for(int i = 0; i < 12*17*2; i++){
+            if(i % 30 == 0 && i < 408 - level && indexWord < 11){
+                content += words[indexWord];
+                i += level;
+                indexWord++;
+            }
+            else
+                content += miscContent[genRand(18)];
+        }
     }
     int chooseLevel() {
         typer("Select level of difficulty from '1' (least difficult) through '12' (most difficult).");
