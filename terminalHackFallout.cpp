@@ -9,7 +9,7 @@
 
 using namespace std;
 
-bool testing = true;
+bool testing = false;
 
 void test(string x) {
     if (testing)
@@ -75,23 +75,6 @@ public:
         test("Pushed:");
         test(x);
     }
-/*
-    string pick() {
-        int spot = genRand(size) + 1;
-
-        node* b = head;
-        for (int i = spot; i != 1; i--)
-            b = b->next;
-        string re = b->next->word;
-        node* bn = b->next;
-        b->next = bn->next;
-        delete bn;
-        size--;
-        test("Picked:");
-        test(re);
-        return re;
-    }
-*/
     string pick() {
         if (size == 0) return ""; // safety
         int spot = genRand(size); // 0 <= spot < size
@@ -130,6 +113,7 @@ private:
     string addys[34];
     string content;
     string commands[17];
+    char miscContent[18] = {'!', '@', '#', '$', '%', '^', '&', '*', ':', ';', ',', '.', '?', '-', '+', '=', '"', '\''};
 public:
     GUI() {
         for(int i = 0; i < 17; i++)
@@ -213,16 +197,17 @@ public:
             cout << addys[i] << "  " << addys[i + 16] << " ";
             if(i < 16)
                 cout << commands[i];
-            cout << endl;
+            if(i != 16)
+                cout << endl;
         }
     }
     void commandHandler(string opt){
         
     }
-    void getCommand(){
-        string opt;
+    void getCommand(bool overrideOpt, string opt){
         cout << ">";
-        cin >> opt;
+        if(!overrideOpt)
+            cin >> opt;
         commandHandler(opt);
         for(int i = 0; i < 15; i++)
             commands[i] = commands[i + 1];
@@ -237,7 +222,7 @@ int main() {
 
     while(true){
         game.print();
-        game.getCommand();
+        game.getCommand(false, "");
     }
     
 	return 0;
