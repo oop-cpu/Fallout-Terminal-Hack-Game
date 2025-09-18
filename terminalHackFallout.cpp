@@ -225,8 +225,23 @@ public:
             getCommand(true, "while system");
             getCommand(true, "is accessed.");
         }
+	else{
+	    if(attempts > 1){
+	    	attempts--;
+		getCommand(true, "Entry denied.");
+		int numCharCorrect = 0;
+		for(int i = 0; i < level; i++)
+		    if(word[i] == opt[i])
+			numCharCorrect++;
+		getCommand(true, to_string(numCharCorrect) + "/" + to_string(level) + " correct.");
+	    }
+	    else{
+	    	attempts = 0;
+		getCommand(true, "SYSTEM LOCK");
+	    }
+	}
     }
-    void getCommand(bool overrideOpt, string opt){
+    bool getCommand(bool overrideOpt, string opt){
         cout << ">";
         if(!overrideOpt)
             cin >> opt;
@@ -235,19 +250,26 @@ public:
             commands[i] = commands[i + 1];
         commands[14] = ">";
         commands[14] += opt;
-        
-        commandHandler(opt);
+        if(!overrideOpt)
+            commandHandler(opt);
+		return attempts == 0;
     }
 };
 
 int main() {
+	clear();
     srand(time(0));
     GUI game;
 
     while(true){
         game.print();
-        game.getCommand(false, "");
+        if(game.getCommand(false, ""))
+			break;
     }
-    
+	clear();
+    typer("              TERMINAL LOCKED");
+	cout << endl;
+	typer("      PLEASE CONTACT AN ADMINISTRATOR");
+	cout << endl;
 	return 0;
 }
