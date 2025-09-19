@@ -12,7 +12,7 @@ subprocess.run(["git add ."], shell=True)
 time.sleep(1)
 subprocess.run(["git commit -m \"lazy commit\""], shell=True)
 time.sleep(1)
-subprocess.run(["git push"], shell=True)
+#subprocess.run(["git push"], shell=True)
 with open(file_path, 'r') as file:
     for line in file:
         time.sleep(1)
