@@ -16,4 +16,5 @@ subprocess.run(["git push"], shell=True)
 with open(file_path, 'r') as file:
     for line in file:
         time.sleep(1)
-        subprocess.run([line.strip()], shell=True)
+        print(line.strip())
+        #subprocess.run([line.strip()], shell=True)
