@@ -11,6 +11,12 @@ using namespace std;
 
 bool testing = false;
 
+string repeatReturn(string rep, int t){
+	string re = "";
+	for(int i = 0; i < t; i++)
+		re += rep;
+	return re;
+}
 void test(string x) {
     if (testing)
         cout << x << endl;
@@ -108,12 +114,18 @@ private:
     wordLink list;
     int attempts;
     int level;
+	int dudsRm = 0;
     string words[11];
     string word;
     string addys[34];
     string content = "";
     string commands[16];
-    char miscContent[18] = {'!', '@', '#', '$', '%', '^', '&', '*', ':', ';', ',', '.', '?', '-', '+', '=', '"', '\''};
+    char miscContent[24] = {'!', '@', '#', '$', '%', 
+							'^', '&', '*', ':', ';', 
+							',', '.', '?', '-', '+', 
+							'=', '"', '\'', '(', ')',
+							'[', ']', '{', '}'};
+	char miscHelp[6]      = {'[', ']', '{', '}', '(', ')'};
 public:
     GUI() {
         for(int i = 0; i < 16; i++)
@@ -154,7 +166,7 @@ public:
                 indexWord++;
             }
             else
-                content += miscContent[genRand(18)];
+				content += miscContent[genRand(24)];
         }
     }
     int chooseLevel() {
@@ -225,21 +237,58 @@ public:
             getCommand(true, "while system");
             getCommand(true, "is accessed.");
         }
-	else{
-	    if(attempts > 1){
-	    	attempts--;
-		getCommand(true, "Entry denied.");
-		int numCharCorrect = 0;
-		for(int i = 0; i < level; i++)
-		    if(word[i] == opt[i])
-			numCharCorrect++;
-		getCommand(true, to_string(numCharCorrect) + "/" + to_string(level) + " correct.");
-	    }
-	    else{
-	    	attempts = 0;
-		getCommand(true, "SYSTEM LOCK");
-	    }
-	}
+		else if(opt[0] == '[' || opt[0] == '{' || opt[0] == '('){
+			int miscHelpIndex = 0;
+			bool hasHelp = false;
+			for(int i = 0; i < 6; i+=2)
+				if(opt[0] == miscHelp[i])
+					miscHelpIndex = i;
+			if(opt[opt.length() - 1] == miscHelp[miscHelpIndex + 1]){
+				for(int i = 0; i < content.length() - opt.length(); i++){
+					if(opt == content.substr(i, opt.length())){
+						hasHelp = true;
+						content.replace(i, opt.length(), repeatReturn(".", opt.length()));
+						break;
+					}
+				}
+			}
+			if(hasHelp){
+				if(genRand(2) == 0 || dudsRm >= 10){
+					attempts = 4;
+					getCommand(true, "Allowance");
+					getCommand(true, "replenished.");
+				}
+				else{
+					int rmIndex = genRand(11);
+					while(words[rmIndex] == word)
+						rmIndex = genRand(11);
+					for(int i = 0; i < content.length() - level; i++)
+						if(words[rmIndex] == content.substr(i, level))
+							content.replace(i, level, repeatReturn(".", level));
+					getCommand(true, "Dud removed.");
+					dudsRm++;
+				}
+			}
+			else{
+				getCommand(true, "Entry denied.");
+				attempts--;
+			}
+		}
+		else{
+			if(attempts > 1){
+				attempts--;
+			getCommand(true, "Entry denied.");
+			int numCharCorrect = 0;
+			for(int i = 0; i < opt.length(); i++)
+				if(word[i] == opt[i])
+				numCharCorrect++;
+			getCommand(true, to_string(numCharCorrect) + "/" + to_string(level) + " correct.");
+			}
+			else{
+				attempts = 0;
+				getCommand(true, "SYSTEM LOCK");
+			}
+		}
     }
     bool getCommand(bool overrideOpt, string opt){
         cout << ">";
