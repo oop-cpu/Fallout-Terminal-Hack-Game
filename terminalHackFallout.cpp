@@ -168,6 +168,8 @@ public:
             else
 				content += miscContent[genRand(24)];
         }
+		while(content.length() < 408)
+			content += miscContent[genRand(24)];
     }
     int chooseLevel() {
         typer("Select level of difficulty from '1' (least difficult) through '12' (most difficult).");
@@ -228,7 +230,8 @@ public:
             if(i != 16)
                 cout << endl;
         }
-        test(content);
+		test(content);
+        test(to_string(content.length()));
     }
     void commandHandler(string opt){
         if(opt == word){
