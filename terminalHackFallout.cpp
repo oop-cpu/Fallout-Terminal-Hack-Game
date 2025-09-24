@@ -320,9 +320,10 @@ int main() {
 			break;
     }
 	clear();
-    typer("              TERMINAL LOCKED");
+	repeat("\n", 5);
+    typer("                  TERMINAL LOCKED");
 	cout << endl;
-	typer("      PLEASE CONTACT AN ADMINISTRATOR");
-	cout << endl;
+	typer("          PLEASE CONTACT AN ADMINISTRATOR");
+	repeat("\n", 5);
 	return 0;
 }
