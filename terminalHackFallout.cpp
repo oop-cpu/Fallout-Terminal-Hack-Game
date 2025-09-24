@@ -294,9 +294,10 @@ public:
 		}
     }
     bool getCommand(bool overrideOpt, string opt){
-        cout << ">";
-        if(!overrideOpt)
+        if(!overrideOpt){
+			cout << ">";
             cin >> opt;
+		}
         
         for(int i = 0; i < 14; i++)
             commands[i] = commands[i + 1];
