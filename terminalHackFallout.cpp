@@ -250,7 +250,14 @@ public:
 				for(int i = 0; i < content.length() - opt.length(); i++){
 					if(opt == content.substr(i, opt.length())){
 						hasHelp = true;
-						content.replace(i, opt.length(), repeatReturn(".", opt.length()));
+						//getCommand(true, "bouta for");
+						for(int o = i; i < opt.length() + i; i++){
+							//getCommand(true, "entered for");
+							if(!((int)content[o] >= (int)'A' && (int)content[o] <= (int)'Z'))
+								content.replace(o, 1, ".");
+						}
+						//content.replace(i, opt.length(), repeatReturn(".", opt.length()));
+						getCommand(true, "bouta break");
 						break;
 					}
 				}
