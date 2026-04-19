@@ -233,6 +233,13 @@ public:
 		test(content);
         test(to_string(content.length()));
     }
+    bool isCharacter(char x){
+        char y[] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+        for(int i = 0; i < 26; i++)
+            if(y[i] == x)
+                return true;
+        return false;
+    }
     void commandHandler(string opt){
         if(opt == word){
             getCommand(true, "Exact match!");
@@ -243,25 +250,39 @@ public:
 		else if(opt[0] == '[' || opt[0] == '{' || opt[0] == '('){
 			int miscHelpIndex = 0;
 			bool hasHelp = false;
-			for(int i = 0; i < 6; i+=2)
-				if(opt[0] == miscHelp[i])
-					miscHelpIndex = i;
-			if(opt[opt.length() - 1] == miscHelp[miscHelpIndex + 1]){
-				for(int i = 0; i < content.length() - opt.length(); i++){
-					if(opt == content.substr(i, opt.length())){
-						hasHelp = true;
-						//getCommand(true, "bouta for");
-						for(int o = i; i < opt.length() + i; i++){
-							//getCommand(true, "entered for");
-							if(!((int)content[o] >= (int)'A' && (int)content[o] <= (int)'Z'))
-								content.replace(o, 1, ".");
-						}
-						//content.replace(i, opt.length(), repeatReturn(".", opt.length()));
-						getCommand(true, "bouta break");
-						break;
-					}
-				}
-			}
+            //use content and miscHelp[] , cast (int)
+
+            //bonus validation//
+            ////////////////////
+
+            //determine miscHelp
+            for(int i = 0; i < opt.length(); i++){
+                if(opt[0] == miscHelp[i]){
+                    miscHelpIndex = i;
+                    break;
+                }
+            }
+
+            //ensuring end index is valid
+            if(opt[opt.length()-1] == miscHelp[miscHelpIndex+1]){
+                //check content for equal
+                for(int i = 0; i < content.length() - opt.length(); i++){
+                    if(content.substr(i, opt.length()) == opt){
+                        hasHelp = true;
+                        for(int o = i; o < i + opt.length(); o++){
+                            if(!isCharacter(content[o])){
+                                content[o] = '.';
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+            ////////////////////
+            ////////////////////
+
+
 			if(hasHelp){
 				if(genRand(2) == 0 || dudsRm >= 10){
 					attempts = 4;
